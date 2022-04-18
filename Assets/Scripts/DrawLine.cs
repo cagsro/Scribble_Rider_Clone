@@ -25,6 +25,9 @@ public class DrawLine : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     [SerializeField]
     Transform Collider_Prefab;
 
+    [SerializeField]
+    Transform RBWheel;
+
     public Transform LastInstantiated_Collider;
 
     //for Love Balls
@@ -52,6 +55,9 @@ public class DrawLine : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
         Rigidbody rb = LineGO.AddComponent<Rigidbody>();
         rb.useGravity = false;
+        LineGO.transform.rotation = Quaternion.Euler(0, 90, 0);
+        LineGO.transform.position = new Vector3(RBWheel.position.x, RBWheel.position.y, RBWheel.position.z - 10);
+        
 
 
         rb.constraints = RigidbodyConstraints.FreezeRotationX;
@@ -110,6 +116,7 @@ public class DrawLine : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                     //LastInstantiated_Collider.localScale = new Vector3(LastInstantiated_Collider.localScale.x, LastInstantiated_Collider.localScale.y, Vector3.Distance(LastInstantiated_Collider.position, CurLinePos) * 0.5f);
                 }
 
+                //LastInstantiated_Collider = Instantiate(Collider_Prefab, LR.GetPosition(CurrentIndex), Quaternion.identity, LineGO.transform);
                 LastInstantiated_Collider = Instantiate(Collider_Prefab, LR.GetPosition(CurrentIndex), Quaternion.identity, LineGO.transform);
                 LastInstantiated_Collider.GetComponent<Renderer>().material = cubeMaterial;
                 LastInstantiated_Collider.gameObject.SetActive(false);
