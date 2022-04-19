@@ -173,10 +173,10 @@ public class DrawLine : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         isDraw = true;
         //CloneCenter.transform.rotation = Quaternion.Euler(0, 90, 0);
         //CloneCenter.transform.position = RBWheel.transform.position;
-        R1 = Instantiate(CloneCenter, RBWheel.transform.position, Quaternion.Euler(0, 90, 0));
-        R2 = Instantiate(CloneCenter, RFWheel.transform.position, Quaternion.Euler(0, 90, 0));
-        L1 = Instantiate(CloneCenter, LBWheel.transform.position, Quaternion.Euler(0, 90, 0));
-        L2 = Instantiate(CloneCenter, LFWheel.transform.position, Quaternion.Euler(0, 90, 0));
+        R1 = Instantiate(CloneCenter, RBWheel.transform.position, Quaternion.Euler(0, 90, 0), RBWheel.transform);
+        R2 = Instantiate(CloneCenter, RFWheel.transform.position, Quaternion.Euler(0, 90, 0), RFWheel.transform);
+        L1 = Instantiate(CloneCenter, LBWheel.transform.position, Quaternion.Euler(0, 90, 0), LBWheel.transform);
+        L2 = Instantiate(CloneCenter, LFWheel.transform.position, Quaternion.Euler(0, 90, 0), LFWheel.transform);
     }
     void ClearObject()
     {
@@ -184,6 +184,6 @@ public class DrawLine : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         Destroy(R2);
         Destroy(L1);
         Destroy(L2);
-
+        Destroy(CloneCenter);
     }
 }

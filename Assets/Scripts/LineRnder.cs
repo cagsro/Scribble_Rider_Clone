@@ -4,32 +4,62 @@ using UnityEngine;
 
 public class LineRnder : MonoBehaviour
 {
-    private LineRenderer lineRenderer;
-    [SerializeField]
-    private Camera cam;
-    private List<Vector3> pointsForDraw = new List<Vector3>();
-    // Start is called before the first frame update
-    void Start()
+    public Camera m_camera;
+    public GameObject brush;
+
+    LineRenderer currentLineRenderer;
+
+    Vector2 lastPos;
+
+    private void Update()
     {
-        lineRenderer = GetComponent<LineRenderer>();
+        Drawing();
     }
 
-    // Update is called once per frame
-    void Update()
+    void Drawing()
     {
-        if(Input.GetButton("Fire1"))
+        if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            DrawTheLine();
+            CreateBrush();
+        }
+        else if (Input.GetKey(KeyCode.Mouse0))
+        {
+            PointToMousePos();
+        }
+        else
+        {
+            currentLineRenderer = null;
         }
     }
-    private void DrawTheLine()
+
+    void CreateBrush()
     {
-        Vector3 mousePos = Input.mousePosition;
-        Vector3 converted = cam.ScreenToWorldPoint(mousePos);
-        converted.z = 0;
-        pointsForDraw.Add(converted);
-        lineRenderer.positionCount = pointsForDraw.Count;
-        lineRenderer.SetPositions(pointsForDraw.ToArray());
+        GameObject brushInstance = Instantiate(brush);
+        currentLineRenderer = brushInstance.GetComponent < LineRenderer >();
+
+        //because you gotta have 2 points to start a line renderer, 
+        Vector2 mousePos = m_camera.ScreenToWorldPoint(Input.mousePosition);
+
+        currentLineRenderer.SetPosition(0, mousePos);
+        currentLineRenderer.SetPosition(1, mousePos);
 
     }
+
+    void AddAPoint(Vector2 pointPos)
+    {
+        currentLineRenderer.positionCount++;
+        int positionIndex = currentLineRenderer.positionCount - 1;
+        currentLineRenderer.SetPosition(positionIndex, pointPos);
+    }
+
+    void PointToMousePos()
+    {
+        Vector2 mousePos = m_camera.ScreenToWorldPoint(Input.mousePosition);
+        if (lastPos != mousePos)
+        {
+            AddAPoint(mousePos);
+            lastPos = mousePos;
+        }
+    }
+
 }
