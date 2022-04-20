@@ -4,31 +4,31 @@ using UnityEngine;
 
 public class Wheel : MonoBehaviour
 {
-    public GameObject Sag, Sol, SagArka, SolArka;
+    Rigidbody rb;
+    [SerializeField] float speed;
+    public Rigidbody targetRB;
+    public Vector3 offset;
     // Start is called before the first frame update
     void Start()
     {
-        
+        speed = 3;
+        rb=GetComponent<Rigidbody>();
+        if(targetRB!=null)
+        {
+            offset = rb.position - targetRB.position;
+        }
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        if(this.gameObject.tag=="Sag")
+        rb.AddTorque(Vector3.right * speed);
+
+        if (targetRB != null)
         {
-            this.transform.position = Sag.transform.position;
-        }
-        if (this.gameObject.tag == "Sol")
-        {
-            this.transform.position = Sol.transform.position;
-        }
-        if (this.gameObject.tag == "SagArka")
-        {
-            this.transform.position = SagArka.transform.position;
-            if (this.gameObject.tag == "SolArka")
-            {
-                this.transform.position = SolArka.transform.position;
-            }
+            Vector3 rbPos = rb.position;
+            rbPos.z = targetRB.position.z + offset.z;
+            rb.position = rbPos;
         }
     }
 }
