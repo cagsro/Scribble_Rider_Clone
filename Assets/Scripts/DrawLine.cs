@@ -6,6 +6,8 @@ using UnityEngine.EventSystems;
 
 public class DrawLine : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
+    public GameObject wheelFront, wheelBack;
+
     public GameObject CloneCenter;
     GameObject R1;
     GameObject R2;
@@ -83,7 +85,8 @@ public class DrawLine : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             ClearObject();
         }
         CloneObject();
-        
+        wheelBack.GetComponent<Rigidbody>().useGravity = true;
+        wheelFront.GetComponent<Rigidbody>().useGravity = true;
     }
 
     void Start()
@@ -170,6 +173,7 @@ public class DrawLine : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     }
     void CloneObject()
     {
+        int wheelsLayerNumber = LayerMask.NameToLayer("wheels");
         isDraw = true;
         //CloneCenter.transform.rotation = Quaternion.Euler(0, 90, 0);
         //CloneCenter.transform.position = RBWheel.transform.position;
@@ -177,6 +181,10 @@ public class DrawLine : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         R2 = Instantiate(CloneCenter, RFWheel.transform.position, Quaternion.Euler(0, 90, 0), RFWheel.transform);
         L1 = Instantiate(CloneCenter, LBWheel.transform.position, Quaternion.Euler(0, 90, 0), LBWheel.transform);
         L2 = Instantiate(CloneCenter, LFWheel.transform.position, Quaternion.Euler(0, 90, 0), LFWheel.transform);
+        R1.layer = wheelsLayerNumber;
+        R2.layer = wheelsLayerNumber;
+        L1.layer = wheelsLayerNumber;
+        L2.layer = wheelsLayerNumber;
     }
     void ClearObject()
     {
