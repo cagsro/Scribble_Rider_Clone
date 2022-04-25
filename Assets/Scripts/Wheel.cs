@@ -11,7 +11,7 @@ public class Wheel : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        speed = 3;
+        speed = 8;
         rb=GetComponent<Rigidbody>();
         if(targetRB!=null)
         {

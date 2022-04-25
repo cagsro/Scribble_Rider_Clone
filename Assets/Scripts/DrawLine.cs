@@ -94,7 +94,7 @@ public class DrawLine : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         LineGO = new GameObject();
     }
 
-    void FixedUpdate()
+    void Update()
     {
         if (StartDrawing)
         {
